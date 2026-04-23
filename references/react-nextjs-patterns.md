@@ -81,8 +81,11 @@ useEffect(() => { document.querySelector('h1')?.focus(); }, [pathname]);
 | `tabIndex={5}` | Remove; let DOM order determine tab order |
 | `outline: none` without replacement | `:focus-visible { outline: 2px solid ...; }` |
 | Placeholder as only label | Add visible `<label>` element |
-| `aria-label` that doesn't contain visible text | Match visible label in `aria-label` |
+| `aria-label` that doesn't contain visible text | Match visible label in `aria-label` (2.5.3 — speech users say what they see) |
 | State change without ARIA update | Sync `aria-expanded`/`aria-pressed` with React state |
+| `onPaste="return false"` on password fields | Remove — blocks password managers (3.3.8) |
+| Fixed `height` on text containers | Use `min-height` — prevents text spacing override clipping (1.4.12) |
+| Missing `@media (forced-colors: active)` | Add forced-colors support for focus indicators and custom controls |
 
 ## Recommended Component Libraries
 

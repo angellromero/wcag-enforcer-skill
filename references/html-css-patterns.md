@@ -72,6 +72,14 @@ Framework-agnostic patterns. These are the foundation that React/Next.js pattern
 /* height: fixed; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; */
 ```
 
+### Sticky Header Compensation (2.4.11)
+```css
+/* Prevent sticky headers from obscuring focused elements */
+html { scroll-padding-block-start: var(--header-height, 80px); }
+/* Also compensate for sticky footers/cookie banners */
+html { scroll-padding-block-end: var(--footer-height, 60px); }
+```
+
 ### Target Sizes
 ```css
 button, a, input, select, [role="button"] { min-height: 24px; min-width: 24px; }

@@ -56,6 +56,82 @@ Ecommerce accounts for ~70% of ADA lawsuits. Only 11% of cart/checkout pages pas
 
 **Confirmation:** Descriptive page title. Order number, email notice, summary as table.
 
+## Authentication (3.3.8 — High Lawsuit Risk)
+
+**Login form:**
+- Password fields support paste — NEVER use `onpaste="return false"` or JS-based paste prevention
+- `autocomplete="username"` on email/username field, `autocomplete="current-password"` on password field
+- Password managers must work end-to-end (autofill → submit)
+- "Show password" toggle: `aria-pressed="true/false"`, changes input `type` from password to text
+
+**Registration:**
+- `autocomplete="new-password"` on password field
+- Password requirements visible before and during input (not only on error)
+- Don't require cognitive function tests (puzzles, pattern recall)
+
+**CAPTCHA:**
+- If CAPTCHA is present, provide alternative (audio CAPTCHA, logic-based, or image recognition alternative)
+- reCAPTCHA v3 (invisible) is preferred over v2 (checkbox/image puzzle)
+- Flag any CAPTCHA for manual testing — most have known a11y issues
+
+**Passkey/WebAuthn:**
+- Provide traditional password login as fallback
+- WebAuthn UI must be keyboard-navigable
+- Passkey enrollment flow must announce each step via live region
+
+**OAuth/Social Login:**
+- Buttons must have descriptive labels: "Sign in with Google" not just a Google icon
+- Redirect flow must maintain focus context on return
+
+## Consistent Help (3.2.6 — EAA Relevant)
+
+Help mechanisms must appear in the same relative position across all pages:
+
+**Chat widgets:**
+- Same position (typically bottom-right) on every page
+- Must remain present and functional during checkout flow
+- Chat button: `aria-label="Open support chat"` or similar
+- Chat button must not obscure focused elements (2.4.11)
+
+**Contact/Help links:**
+- "Contact Us", "Help", "FAQ" — same label, same position, across all pages
+- Footer placement is typical; if in header, consistently in header
+- Must not move between pages (e.g., "Help" in header on PLP but footer on PDP is a violation)
+
+**Phone numbers:**
+- Use `<a href="tel:+18005551234">` with visible text
+- Same position on all pages (typically header or footer)
+
+## Hover/Focus Content (1.4.13 — Common Ecommerce Failures)
+
+**Mega menus:**
+- Must allow pointer to travel from trigger to menu content without dismissing
+- Use a delay or "grace area" (triangular hover zone) to prevent premature closing
+- Escape key must close the menu
+- Focus must be manageable via keyboard (Tab into menu, Escape out)
+
+**Product quick-view popovers:**
+- Dismissible with Escape
+- Hoverable (pointer can move into the popover content)
+- Persistent until user actively dismisses or moves focus/hover away
+
+**Tooltip badges ("Free shipping", "Sale", "New"):**
+- Content shown on hover must be hoverable (pointer can move to it)
+- Must be dismissible without moving pointer/focus (Escape key)
+- Must persist until hover/focus is removed
+
+**Size guide popovers:**
+- Must be keyboard-accessible (focus trigger to open, Escape to close)
+- Content must be hoverable and persistent
+
+## Redundant Entry (3.3.7 — Checkout Specific)
+
+- "Billing same as shipping" checkbox (default to checked)
+- Pre-populate billing address from shipping address when checkbox is checked
+- If user returns to a previous checkout step, previously entered data must persist
+- Don't ask for email twice (e.g., during guest checkout then again at order confirmation)
+- Account holders: pre-populate from saved profile data
+
 ## Third-Party Widget Risk
 
 Every third-party widget is a potential WCAG violation. Flag these for manual testing:
@@ -66,13 +142,18 @@ Every third-party widget is a potential WCAG violation. Flag these for manual te
 - Social proof popups (Fomo, TrustPulse)
 - Cookie consent (OneTrust, Cookiebot)
 - Search overlays (Algolia, Searchspring)
+- Size guide / fit finder widgets
+- Loyalty program widgets
+- Apple Pay / Google Pay buttons (hosted iframes)
 
-When encountering third-party widgets in code, always add to the "Manual Testing Required" section of the review.
+When encountering third-party widgets in code, always add to the "Needs Human Verification" or "Manual Testing Required" section of the review.
 
 ## Global Patterns
 
-**Header:** Skip nav link first. Nav labeled (`aria-label="Main navigation"`). Search labeled. Mobile hamburger: `aria-expanded` on toggle button.
+**Header:** Skip nav link first. Nav labeled (`aria-label="Main navigation"`). Search labeled. Mobile hamburger: `aria-expanded` on toggle button. Cart count announced on update.
 
-**Popups/Modals:** Keyboard-dismissible (Escape). Focus trapped. Focus returns on close. No keyboard traps ever.
+**Sticky headers/footers:** Must not obscure focused elements (2.4.11). Use `scroll-padding-block-start` to compensate. Cookie banners must not cover interactive content.
 
-**Footer:** Links descriptive. Social icons have `aria-label`. Nav labeled (`aria-label="Footer navigation"`).
+**Popups/Modals:** Keyboard-dismissible (Escape). Focus trapped. Focus returns on close. No keyboard traps ever. Background content must be `inert`.
+
+**Footer:** Links descriptive. Social icons have `aria-label`. Nav labeled (`aria-label="Footer navigation"`). Help mechanisms in consistent position (3.2.6).
